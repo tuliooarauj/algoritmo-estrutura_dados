@@ -1,4 +1,2 @@
-x = '[1, 2, 3]'
-
-
-print(x.replace(' ', ''))
+x = eval('[]')
+print(type(x))
