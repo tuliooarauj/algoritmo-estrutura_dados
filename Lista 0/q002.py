@@ -1,34 +1,34 @@
-def check_bigger(array):
-
-    n_elements = 0
-    biggest_list = array
-    n_biggest_list = n_elements
-
-    for element in array:
-
-        n_elements += 1
-
-    if n_elements > n_biggest_list:
-
-        n_biggest_list = n_elements
-        biggest_list = array
-
-    return biggest_list
-
 def main():
 
-    running = True
+    biggest = ''
+    n_biggest_list = 0
     
-    while running:
+    while True:
 
+        n_elements = 0
         array = input()
 
         if not array == '':
-            biggest = check_bigger(array)
-        
-        runnning = False
 
-    print(biggest)
+            for element in array:
+
+                n_elements += 1
+
+            for element in biggest:
+
+                n_biggest_list += 1
+
+            if n_elements > n_biggest_list:
+
+                n_biggest_list = n_elements
+                biggest_list = array
+
+        else:
+                
+            break
+    
+    print(biggest_list)
         
 
-main()
+if __name__ == '__main__':
+    main()
