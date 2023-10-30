@@ -1,29 +1,24 @@
 def main():
 
-    biggest = ''
     n_biggest_list = 0
     
     while True:
 
-        n_elements = 0
-        array = input()
+        try:
 
-        if not array == '':
+            n_elements = 0
+            array = input()
 
-            for element in array:
+            for element in eval(array):
 
                 n_elements += 1
-
-            for element in biggest:
-
-                n_biggest_list += 1
 
             if n_elements > n_biggest_list:
 
                 n_biggest_list = n_elements
                 biggest_list = array
 
-        else:
+        except:
                 
             break
     
