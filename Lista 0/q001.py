@@ -1,25 +1,27 @@
-first_element = '{'
-second_element = '}'
-
 def check_wellformed(string):
+    
+    open_bracket = '{'
+    close_bracket = '}'
 
-    count_first = 0
-    count_second = 0
+    brackets_count = 0
    
-    if first_element in string or second_element in string:
+    if open_bracket in string or close_bracket in string:
       
       for element in string:
 
-        if element == first_element:
-            count_first += 1
+        if element == open_bracket:
+            brackets_count += 1
 
-        elif element == second_element:
-           count_second += 1
+        elif element == close_bracket:
+           brackets_count -= 1
+           if brackets_count < 0:
+              return False
     
-    if count_first == count_second:
-        return True
+    if brackets_count == 0:
+       return True
     else:
        return False
+    
 
 def main():
     
@@ -30,4 +32,5 @@ def main():
     else:
         print('N')
 
-main()
+if __name__ == '__main__':
+    main()
