@@ -1,33 +1,49 @@
-class Stack:
-    def __init__(self):
-        self.top = -1
-        self.stack = ['','','','','','']
-    
-    def stack_empty(self):
-        if self.top == 0:
-            return True
-        else:
-            return False
+class Node():
+    def __init__(self, data) -> None:
+        self.data = data
+        self.next = None
+
+class Stack():
+    def __init__(self) -> None:
+        self.top = None
+        self._size = 0
 
     def push(self, element):
-        self.top += 1
-        self.stack[self.top] = element
+        
+        node = Node(element)
+
+        node.next = self.top #Atribuir a variável node.next ao antigo topo
+        self.top = node #Atribuir ao novo topo a nova variável que está chegando
+        self._size += 1
 
     def pop(self):
-        if self.stack_empty():
-            return 'stack underflow'
+        if self._size == 0:
+            return 'Stack is empty'
+        else:
+            node = self.top
+            self.top = self.top.next #O topo agora é a próxima variável
+            self._size -= 1
+            return node.data
+    
+    def peek(self):
+        #retorna o valor do topo
+        if self._size == 0:
+            return 'Stack is empty'
+        else:
+            return self.top.data
         
-        self.top -= 1
-        
-        return self.stack[self.top + 1]
 
-pilha = Stack()
+stack = Stack()
 
-pilha.push(4)
-pilha.push(1)
-pilha.push(3)
-x = pilha.pop()
-pilha.push(8)
-y = pilha.pop()
+while True:
+    opcao = input('\n\nDigite a opção do menu:\n1- Inserir\n2- Remover\n3- Mostrar último valor da pilha\n\n')
+    if opcao == '1':
+        dado = input('Digite o dado: ')
+        solicitacao = Node(dado)
+        stack.push(solicitacao)
+    
+    elif opcao == '2':
+        print(stack.pop())
 
-print(pilha.stack[:pilha.top +1])
+    else:
+        print(stack.peek())
