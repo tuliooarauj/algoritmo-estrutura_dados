@@ -26,7 +26,12 @@ class BoxStacking:
         return box_leaving
     
     def peek(self):
-        return self.top.data
+        peek = self.top
+        
+        if peek is None:
+            pass
+        else:
+            return self.top.data
     
     def next_peek(self):
 
@@ -54,7 +59,6 @@ def box_ncount(n1, n2):
         return n1 - n2
     else:
         return n2 - n1
-
     
 def main():
 
@@ -63,45 +67,54 @@ def main():
     n_stacks = int(input())
 
     i = 0
-    is_stacking = True
+    j = 0
 
     while i < n_stacks:
 
         i += 1
+        is_stacking = True
+
+        while j != stack.size: #Zerando a pilha
+            stack.pop()
 
         while is_stacking:   
 
-            n_box = int(input())
-            parity_testing = True
+            n_box = input()
 
-            if n_box == 0: #End of stack
-                is_stacking = False
-
+            if n_box == '':
+                pass
             else:
+                n_box = int(n_box)
+                parity_testing = True
 
-                stack.push(n_box)
+                if n_box == 0: #End of stack
+                    is_stacking = False
 
-                while parity_testing:
+                else:
 
-                    last_push = stack.peek()
-                    secondLast_push = stack.next_peek()
+                    stack.push(n_box)
 
-                    parity_test = check_parity(last_push, secondLast_push)
+                    while parity_testing:
+
+                        last_push = stack.peek()
+                        secondLast_push = stack.next_peek()
+
+                        parity_test = check_parity(last_push, secondLast_push)
+                            
+                        if parity_test:
+
+                            stack.pop()
+                            stack.pop()
+
+                            new_box = box_ncount(last_push, secondLast_push)
+
+                            stack.push(new_box)
                         
-                    if parity_test:
-
-                        stack.pop()
-                        stack.pop()
-
-                        new_box = box_ncount(last_push, secondLast_push)
-
-                        stack.push(new_box)
-                    
-                    else:
-                        parity_testing = False
+                        else:
+                            parity_testing = False
 
         stack_size = stack.size
-        stack_top = stack.top.data
+        stack_top = stack.peek()
 
         print(f'Pilha {i}: {stack_size} {stack_top}')
 
