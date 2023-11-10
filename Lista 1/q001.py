@@ -119,7 +119,7 @@ def main():
         if stack_size == 0:
             stack_top = -1
 
-        print(f'Pilha {i}: {stack_size} {stack_top}')
+        print('Pilha '+str(i)+': '+str(stack_size)+' '+str(stack_top))
 
     
         
