@@ -26,22 +26,32 @@ class BoxStacking:
         return box_leaving.data
     
     def peek(self):
+
         top = self.top.data
         return top.data
     
     def next_peek(self):
+
         next_peek = self.top.next
-        return next_peek.data
+
+        if next_peek is None:
+            pass
+        else:
+            return next_peek.data.data
     
 def check_parity(n1, n2):
     
-    if (n1 % 2 == 0 and n2 % 2 == 0) or (n1 % 2 != 0 and n2 % 2 != 0):
-        return True #Same parity
+    if n1 is not None and n2 is not None:
+        if (n1 % 2 == 0 and n2 % 2 == 0) or (n1 % 2 != 0 and n2 % 2 != 0):
+            return True #Same parity
 
+        else:
+            return False #One is different
     else:
-        return False #One is different
+        pass
 
 def box_ncount(n1, n2):
+
     if n1 > n2:
         return n1 - n2
     else:
@@ -54,10 +64,10 @@ def main():
     
     n_stacks = int(input())
 
-    i = 1
+    i = 0
     is_stacking = True
 
-    while i <= n_stacks:
+    while i < n_stacks:
 
         i += 1
 
