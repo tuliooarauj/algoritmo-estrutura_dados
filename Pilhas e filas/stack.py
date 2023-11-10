@@ -33,6 +33,11 @@ class Stack():
             top = self.top.data
             return top.data
         
+    def next_peek(self):
+        #retorna o após ao topo
+        next_peek = self.top.next.data
+        return next_peek.data
+        
 
 stack = Stack()
 
@@ -45,6 +50,9 @@ while True:
     
     elif opcao == '2':
         print(stack.pop())
+
+    elif opcao == '4':
+        print(stack.next_peek())
 
     else:
         print(stack.peek())
