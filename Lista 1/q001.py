@@ -12,9 +12,9 @@ class BoxStacking:
 
         box = Box(element)
 
-        box.next = self.top #Antigo topo é o novo próximo elemento.
+        box.next = self.top #Older top is the new next element.
 
-        self.top = box #Novo elemento é o atual topo.
+        self.top = box #New element is now top.
         self.size += 1
     
     def pop(self):    
@@ -33,6 +33,21 @@ class BoxStacking:
         next_peek = self.top.next
         return next_peek.data
     
+def check_parity(n1, n2):
+    
+    if (n1 % 2 == 0 and n2 % 2 == 0) or (n1 % 2 != 0 and n2 % 2 != 0):
+        return True #Same parity
+
+    else:
+        return False #One is different
+
+def box_ncount(n1, n2):
+    if n1 > n2:
+        return n1 - n2
+    else:
+        return n2 - n1
+
+    
 def main():
 
     stack = BoxStacking()
@@ -40,15 +55,18 @@ def main():
     n_stacks = int(input())
 
     i = 1
+    is_stacking = True
 
     while i <= n_stacks:
 
-        while True: 
+        i += 1
+
+        while is_stacking:   
 
             n_box = int(input())
 
-            if n_box == 0: #Fim da pilha
-                pass
+            if n_box == 0: #End of stack
+                is_stacking = False
 
             else:
                 
@@ -56,16 +74,20 @@ def main():
 
                 stack.push(box)
 
+                last_push = stack.peek()
+                secondLast_push = stack.next_peek()
 
+                parity_test = check_parity(last_push, secondLast_push)
 
+                if parity_test:
 
+                    stack.pop()
+                    stack.pop()
 
+                    new_box = box_ncount(last_push, secondLast_push)
 
-
-
-
-
-        i += 1
+                    stack.push(new_box)
+        
 
 if __name__ == '__main__':
     main()
