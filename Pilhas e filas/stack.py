@@ -30,7 +30,8 @@ class Stack():
         if self._size == 0:
             return 'Stack is empty'
         else:
-            return self.top.data
+            top = self.top.data
+            return top.data
         
 
 stack = Stack()
