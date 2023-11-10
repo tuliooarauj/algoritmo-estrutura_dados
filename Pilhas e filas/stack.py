@@ -20,7 +20,7 @@ class Stack():
         if self._size == 0:
             return 'Stack is empty'
         else:
-            node = self.top
+            node = self.top.data
             self.top = self.top.next #O topo agora é a próxima variável
             self._size -= 1
             return node.data
