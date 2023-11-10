@@ -1,10 +1,10 @@
 class Box:
-    def __init__(self, data) -> None:
+    def __init__(self, data):
         self.data = data
         self.next = None
 
 class BoxStacking:
-    def __init__(self) -> None:
+    def __init__(self):
         self.top = None
         self.size = 0
 
@@ -23,12 +23,10 @@ class BoxStacking:
         self.top = self.top.next
         self.size -=1 
 
-        return box_leaving.data
+        return box_leaving
     
     def peek(self):
-
-        top = self.top.data
-        return top.data
+        return self.top.data
     
     def next_peek(self):
 
@@ -37,7 +35,7 @@ class BoxStacking:
         if next_peek is None:
             pass
         else:
-            return next_peek.data.data
+            return next_peek.data
     
 def check_parity(n1, n2):
     
@@ -74,29 +72,40 @@ def main():
         while is_stacking:   
 
             n_box = int(input())
+            parity_testing = True
 
             if n_box == 0: #End of stack
                 is_stacking = False
 
             else:
-                
-                box = Box(n_box)
 
-                stack.push(box)
+                stack.push(n_box)
 
-                last_push = stack.peek()
-                secondLast_push = stack.next_peek()
+                while parity_testing:
 
-                parity_test = check_parity(last_push, secondLast_push)
+                    last_push = stack.peek()
+                    secondLast_push = stack.next_peek()
 
-                if parity_test:
+                    parity_test = check_parity(last_push, secondLast_push)
+                        
+                    if parity_test:
 
-                    stack.pop()
-                    stack.pop()
+                        stack.pop()
+                        stack.pop()
 
-                    new_box = box_ncount(last_push, secondLast_push)
+                        new_box = box_ncount(last_push, secondLast_push)
 
-                    stack.push(new_box)
+                        stack.push(new_box)
+                    
+                    else:
+                        parity_testing = False
+
+        stack_size = stack.size
+        stack_top = stack.top.data
+
+        print(f'Pilha {i}: {stack_size} {stack_top}')
+
+    
         
 
 if __name__ == '__main__':
