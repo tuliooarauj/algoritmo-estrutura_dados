@@ -58,12 +58,25 @@ class LinkedList:
         else:
             raise IndexError('list index out of range')
 
+    def index(self, element): #Linear search [O(n)]
+        #Method to return the index of an element 
+
+        pointer = self.head
+
+        i = 0
+
+        while pointer: #Searching element in list
+            if pointer.data == element:
+                return i
+            pointer = pointer.next
+            i += 1
+        raise ValueError('{} is not in list'.format(element))
 
 
     
 lista = LinkedList()
 
-lista.append(10)
+'''lista.append(10)
 lista.append(15)
 print(len(lista))
 print(lista[0])
@@ -72,5 +85,5 @@ lista[1] = 1000
 print(lista[1])
 lista.append(240200000000)
 print(lista[2])
-
-
+print(f'Indice do elemento 10: {lista.index(10)}')
+print(f'Indice do elemento 240200000000: {lista.index(240200000000)}')'''
