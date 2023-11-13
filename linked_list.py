@@ -23,8 +23,54 @@ class LinkedList:
 
         self._size +=1 
 
+    def __len__(self):
+        return self._size
+
+    def __getitem__(self, index): #Sobrecarga de operador, atribuir o operador natural [] para o comportamento de indexação.
+        # a = lista[6]
+        pointer = self.head
+        i = 0
+        while i < index:
+            i += 1
+            if pointer: #!= from None
+                pointer = pointer.next
+            else:
+                raise IndexError('list index out of range')
+        
+        if pointer:
+            return pointer.data
+        else:
+            raise IndexError('list index out of range')
+
+    def __setitem__(self, index, element):
+        # lista[5] = 9
+        pointer = self.head
+        i = 0
+        while i < index:
+            i += 1
+            if pointer: #!= from None
+                pointer = pointer.next
+            else:
+                raise IndexError('list index out of range')
+        
+        if pointer:
+            pointer.data = element
+        else:
+            raise IndexError('list index out of range')
+
+
 
     
 lista = LinkedList()
 
-print(lista._size)
+lista.append(10)
+lista.append(15)
+print(len(lista))
+print(lista[0])
+print(lista[1])
+lista[1] = 1000
+print(lista[1])
+lista.append(240200000000)
+print(lista[2])
+
+
