@@ -80,10 +80,27 @@ class LinkedList:
 
         self._size += 1
             
-
-
-
-
+    def remove(self, element):
+        if self.head is None:
+            raise ValueError('{} is not in list'.format(element))
+        elif self.head.data == element:
+            self.head = self.head.next
+            return True
+        else:
+            prev = self.head
+            pointer = self.head.next
+            while pointer:
+                if pointer.data == element:
+                    prev.next = pointer.next #Linking prev from element to next from element (1 - [2] - 3 --> 1 - 3)
+                    pointer.next = None
+                    return True
+                else:
+                    prev = pointer # "Walking" trought the list (pointer is always 1 position ahead prev)
+                    pointer = pointer.next
+            
+            raise ValueError('{} is not in list'.format(element))
+                
+        
     
 lista = LinkedList()
 
@@ -100,3 +117,5 @@ print(lista[2])
 print(f'Indice do elemento 240200000000: {lista.index(240200000000)}')
 lista.insert(0, 22)
 print(f'Indice do elemento 22: {lista.index(22)}')
+lista.remove(22)
+print(lista[0])
