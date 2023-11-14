@@ -85,6 +85,7 @@ class LinkedList:
             raise ValueError('{} is not in list'.format(element))
         elif self.head.data == element:
             self.head = self.head.next
+            self._size -= 1
             return True
         else:
             prev = self.head
@@ -93,6 +94,7 @@ class LinkedList:
                 if pointer.data == element:
                     prev.next = pointer.next #Linking prev from element to next from element (1 - [2] - 3 --> 1 - 3)
                     pointer.next = None
+                    self._size -= 1
                     return True
                 else:
                     prev = pointer # "Walking" trought the list (pointer is always 1 position ahead prev)
@@ -100,22 +102,21 @@ class LinkedList:
             
             raise ValueError('{} is not in list'.format(element))
                 
-        
-    
-lista = LinkedList()
+    def __repr__(self) -> str:
+        r = ''
+        pointer = self.head
 
-lista.append(10)
-lista.append(15)
-print(len(lista))
-print(lista[0])
-print(lista[1])
-lista[1] = 1000
-print(lista[1])
-lista.append(240200000000)
-print(lista[2])
-#print(f'Indice do elemento 10: {lista.index(10)}')
-print(f'Indice do elemento 240200000000: {lista.index(240200000000)}')
-lista.insert(0, 22)
-print(f'Indice do elemento 22: {lista.index(22)}')
-lista.remove(22)
-print(lista[0])
+        while pointer:
+            r = r + str(pointer.data) + '->'
+            pointer = pointer.next
+        
+        return r
+
+if __name__ == '__main__':
+    lista = LinkedList()
+
+    lista.append(10)
+    lista.append(20)
+    lista.append(30)
+
+
