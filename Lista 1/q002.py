@@ -70,9 +70,9 @@ def main():
                 right_to_left.push(car_length)
 
         while len(left_to_right) != 0 and len(right_to_left) != 0:
-            if left_to_right.check_for_dequeue():
+            if left_to_right.check_for_dequeue(boat_length):
                 nTrips += 1
-            if right_to_left.check_for_dequeue():
+            if right_to_left.check_for_dequeue(boat_length):
                 nTrips += 1
 
         print('Caso {}: {}'.format(i, nTrips))
