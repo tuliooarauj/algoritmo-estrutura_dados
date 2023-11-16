@@ -28,7 +28,6 @@ class CarQueue:
         self._size -= 1 
 
     def boat_walks(self, boat_length, n_carsLeft):
-        #Barco anda com duas situações, tem carro pra transportar no seu lado ou precisa voltar pra buscar carros do outro lado do rio.
         total = 0
         desenfileirou = False
         while not self.head == None and total <= boat_length:
@@ -41,8 +40,7 @@ class CarQueue:
         if desenfileirou:  
             return True
         elif n_carsLeft > 0:
-            return True
-            
+            return True           
             
     def __len__(self):
         return self._size
