@@ -27,18 +27,19 @@ class CarQueue:
             self.head = self.head.next
         self._size -= 1 
 
-    def check_for_dequeue(self, boat_length):
-        if not self._size == 0:
-            total = 0
-            while total < boat_length:
-                boat_size = self.head.car_size
-                total += boat_size
+    def boat_walks(self, boat_length, n_carsLeft):
+        #Barco anda com duas situações, tem carro pra transportar no seu lado ou precisa voltar pra buscar carros do outro lado do rio.
+        total = 0
+        while not self.head == None:
+            car_size = self.head.car_size
+            total += car_size
+            if total < boat_length:
                 self.remove()
-                if not self.head == None:
-                    self.head = self.head.next
-                
+                return True
+        if n_carsLeft > 0:
             return True
-
+            
+            
     def __len__(self):
         return self._size
 
@@ -55,11 +56,13 @@ def main():
         nTrips = 0
         j = 0 
         length_nCars = input().split() #Input to receive boat length and the number of cars.
-        boat_length = int(length_nCars[0]) #In meters
+        boat_length = int(length_nCars[0]) * 100 #In meters
         numberCars = int(length_nCars[1])
 
         while j < numberCars: #Car enqueue by side arrive
             j+=1 
+
+            boat_position = 'esquerda'
 
             carLength_side = input().split() #Input to receive car length and the side wich it arrived.
             car_length = int(carLength_side[0])
@@ -71,10 +74,13 @@ def main():
                 right_to_left.push(car_length)
 
         while len(left_to_right) != 0 or len(right_to_left) != 0:
-            if left_to_right.check_for_dequeue(boat_length):
+            if boat_position == 'esquerda' and left_to_right.boat_walks(boat_length, len(right_to_left)):
                 nTrips += 1
-            if right_to_left.check_for_dequeue(boat_length):
+                boat_position = 'direita'
+
+            if boat_position == 'direita' and right_to_left.boat_walks(boat_length, len(left_to_right)):
                 nTrips += 1
+                boat_position = 'esquerda'
 
         print('Caso {}: {}'.format(i, nTrips))
 
