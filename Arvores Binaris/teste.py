@@ -18,11 +18,15 @@ def example_tree():
         tree.insert(v)
     return tree
 
-bst = example_tree()
+bst = random_tree()
 bst.inorder_traversal()
 
 print('\n------')
 bst.levelorder_traversal()
+
+print('\n------')
+print('Máximo: ', bst.max())
+print('Mínimo: ', bst.min())
 
 '''for item in items:
     r = bst.search(item)
