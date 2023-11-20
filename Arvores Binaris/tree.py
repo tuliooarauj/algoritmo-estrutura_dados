@@ -25,16 +25,60 @@ class BinaryTree:
         if node.right:
             self.simetric_traversal(node.right)
             print(')', end='')
-         
-if __name__ == "__main__":
-    '''tree = BinaryTree(7)
-    tree.root.left = TreeNode(18)
-    tree.root.right = TreeNode(22)
 
-    print(tree.root)
-    print(tree.root.left)
-    print(tree.root.right)'''
+    def postorder_traversal(self, node = None):
+        if node is None:
+            node = self.root #Partindo por padrão a partir da raiz
+        if node.left:
+            self.postorder_traversal(node.left)
+        if node.right:
+            self.postorder_traversal(node.right)
+        print(node, end='')
 
+    def height(self, node = None):
+        if node is None:
+            node = self.root #Partindo por padrão a partir da raiz
+        hleft = 0
+        hright = 0
+        if node.left:
+            hleft = self.height(node.left)
+        if node.right:
+            hright = self.height(node.right)
+        if hright > hleft:
+            return hright + 1 
+        return hleft + 1
+
+        
+
+def postorder_example_tree():
+    tree = BinaryTree()
+    n1 = TreeNode('I')
+    n2 = TreeNode('N')
+    n3 = TreeNode('S')
+    n4 = TreeNode('C')
+    n5 = TreeNode('R')
+    n6 = TreeNode('E')
+    n7 = TreeNode('V')
+    n8 = TreeNode('A')
+    n10 = TreeNode('-')
+    n9 = TreeNode('S')
+    n0 = TreeNode('E')
+
+    n0.left = n6
+    n0.right = n9
+    n6.left = n1
+    n6.right = n5
+    n5.left = n2
+    n5.right = n4
+    n4.right = n3
+    n9.left = n10
+    n10.right = n8
+    n8.right = n7
+
+    tree.root = n0
+    return tree
+
+def inorder_traversal_example():
     tree = BinaryTree()
     n1 = TreeNode('a')
     n2 = TreeNode('+')
@@ -61,12 +105,19 @@ if __name__ == "__main__":
 
     '''
             '+'
-           /    \
+        /    \
         'a'     '*'
                 /   \ 
-              'b'   '-'
+            'b'   '-'
                     /   \
-                  '/'  'e'
-                 /  \ 
-               'c'  'd'
+                '/'  'e'
+                /  \ 
+            'c'  'd'
     '''
+
+if __name__ == "__main__":
+
+    tree = postorder_example_tree()
+    print('Percurso em pós ordem:')
+    tree.postorder_traversal()
+    print(f'\nAltura: {tree.height()}')
