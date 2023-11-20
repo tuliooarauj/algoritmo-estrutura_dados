@@ -1,3 +1,7 @@
+from fila import Fila
+
+ROOT = 'root'
+
 class TreeNode:
     def __init__(self, data):
         self.data = data
@@ -50,6 +54,20 @@ class BinaryTree:
             return hright + 1 
         return hleft + 1
     
+    def levelorder_traversal(self, node = ROOT):
+        if node == ROOT:
+            node = self.root
+
+        queue = Fila()
+        queue.push(node)
+        while len(queue):
+            node = queue.pop()
+            if node.left:
+                queue.push(node.left)
+            if node.right:
+                queue.push(node.right)
+            print(node, end=' ')
+    
 class BinarySearchTree(BinaryTree):
     
     def insert(self, value):
@@ -73,11 +91,11 @@ class BinarySearchTree(BinaryTree):
     def search(self, value, node = 0):
         if node == 0:
             node = self.root
-        
-        if node is None:
+        elif node is None:
             return node
         elif node.data == value:
             return BinarySearchTree(node)
+        
         if value < node.data:
             return self.search(value, node.left)
         return self.search(value, node.right)
