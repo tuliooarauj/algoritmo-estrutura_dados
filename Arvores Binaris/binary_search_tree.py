@@ -8,23 +8,25 @@ class TreeNode:
         return str(self.data)
 
 class BinaryTree:
-    def __init__(self, data = None):
-        if data:
+    def __init__(self, data = None, tree_node = None):
+        if tree_node: #Permitir a possibilidade de criação de uma árvore ou sub-árvore dado que já existe um nó.
+            self.root = None
+        elif data:
             node = TreeNode(data)
             self.root = node
         else:
             self.root = None
 
-    def simetric_traversal(self, node = None): #Encaminhamento em ordem
+    def inorder_traversal(self, node = None): #Encaminhamento em ordem
         if node is None:
             node = self.root #Partindo por padrão a partir da raiz
         if node.left:
-            print('(', end='')
-            self.simetric_traversal(node.left)
-        print(node, end = '')
+            #print('(', end='')
+            self.inorder_traversal(node.left)
+        print(node, end = ' ')
         if node.right:
-            self.simetric_traversal(node.right)
-            print(')', end='')
+            self.inorder_traversal(node.right)
+            #print(')', end='')
 
     def postorder_traversal(self, node = None):
         if node is None:
@@ -33,7 +35,7 @@ class BinaryTree:
             self.postorder_traversal(node.left)
         if node.right:
             self.postorder_traversal(node.right)
-        print(node, end='')
+        print(node, end=' ')
 
     def height(self, node = None):
         if node is None:
@@ -53,18 +55,31 @@ class BinarySearchTree(BinaryTree):
     def insert(self, value):
         parent = None
         x = self.root
+
         while x:
             parent = x
             if value < x.data:
                 x = x.left
             else:
                 x = x.right
+
         if parent is None:
             self.root = TreeNode(value)
         elif value < parent.data:
             parent.left = TreeNode(value)
         else:
             parent.right = TreeNode(value)
+    
+    def search(self, value, node = 0):
+        if node == 0:
+            node = self.root
+        
+        if node is None or node.data == value:
+            return BinarySearchTree(node)
+        if value < node.data:
+            return self.search(value, node.left)
+        return self.search(value, node.right)
+
          
 if __name__ == "__main__":
     pass
