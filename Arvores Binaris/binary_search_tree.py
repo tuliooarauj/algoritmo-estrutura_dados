@@ -115,6 +115,30 @@ class BinarySearchTree(BinaryTree):
         while node.right:
             node = node.right
         return node.data
+    
+    def remove(self, value, node = ROOT):
+        if node == ROOT:
+            node = self.root
+        
+        #Busca do elemento por recursão, retornando sempre a sub-árvore a esquerda ou direita do nó inicial até encontrar o elemento a ser removido.
+        if node is None:
+            return node
+
+        if value < node.data:
+            node.left = self.remove(value, node.left)
+        elif value > node.data:
+            node.right = self.remove(value, node.right)
+        else:
+            if node.left is None:
+                return node.right
+            elif node.right is None:
+                return node.left
+            else:
+                substitute = self.min(node.right)
+                node.data = substitute
+                node.right = self.remove(substitute, node.right)
+        
+        return node
          
 if __name__ == "__main__":
     pass

@@ -18,10 +18,24 @@ def example_tree():
         tree.insert(v)
     return tree
 
-bst = random_tree()
+def extended_tree():
+    values = [61, 89, 66, 43, 51, 16, 55, 11, 79, 77, 82, 32, 100, 90]
+    tree = BinarySearchTree()
+    for v in values:
+        tree.insert(v)
+    return tree
+
+bst = extended_tree()
 bst.inorder_traversal()
 
+#Teste de remoção
 print('\n------')
+v = 61
+bst.remove(v)
+
+print(f'Após remover {v}')
+bst.inorder_traversal()
+print('\n')
 bst.levelorder_traversal()
 
 print('\n------')
