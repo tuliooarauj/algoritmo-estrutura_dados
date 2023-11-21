@@ -81,7 +81,7 @@ class BinarySearchTree(BinaryTree):
             else:
                 x = x.right
 
-        if parent is None:
+        if parent is None: # Primeira inserção
             self.root = TreeNode(value)
         elif value < parent.data:
             parent.left = TreeNode(value)
