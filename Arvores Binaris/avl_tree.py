@@ -89,7 +89,21 @@ class avlTree():
 
         #Left Left Case --> Right-rotate
         if balance_factor <= -2 and value < parent.left.data: 
-            pass 
+            return self.right_rotate(parent)
+        
+        #Right Right Case --> Left-rotate
+        if balance_factor >= 2 and value > parent.right.data:
+            return self.left_rotate(parent)
+        
+        #Left Right Case --> Left-rotate -> Right rotate
+        if balance_factor <= -2 and value > parent.left.data:
+            parent.left = self.left_rotate(parent.left)
+            return self.right_rotate(parent)
+        
+        #Right Left Case --> Right-rotate -> Left rotate
+        if balance_factor >= 2 and value < parent.right.data:
+            parent.right = self.right_rotate(parent.right)
+            return self.right_rotate(parent)
 
     def search(self, value, node = 0): # Busca por um valor começando pela raiz ou nó desejado
         if node == 0:
