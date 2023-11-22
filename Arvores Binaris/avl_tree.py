@@ -85,6 +85,12 @@ class avlTree():
         else:
             parent.right = TreeNode(value)
 
+        balance_factor = self.get_balance(parent)
+
+        #Left Left Case --> Right-rotate
+        if balance_factor <= -2 and value < parent.left.data: 
+            pass 
+
     def search(self, value, node = 0): # Busca por um valor começando pela raiz ou nó desejado
         if node == 0:
             node = self.root
@@ -144,3 +150,21 @@ class avlTree():
         fb = self.height(node.right) - self.height(node.left)
 
         return fb
+    
+    def left_rotate(self, node):
+        aux = node.right
+        aux2 = aux.left 
+
+        aux.left = node
+        node.right = aux2 #Nó que "desceu" recebe à direita a árvore à esquerda do nó que "subiu"
+
+        return aux #Nó que "subiu" é retornado como nova raiz
+
+    def right_rotate(self, node):
+        aux = node.left
+        aux2 = aux.right
+
+        aux.right = node
+        node.left = aux2 # Nó que "desceu" recebe à esquerda a árvore à direita do nó que "subiu"
+
+        return aux #Nó que "subiu" é retornado como nova raiz
