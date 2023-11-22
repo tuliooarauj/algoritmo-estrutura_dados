@@ -136,3 +136,11 @@ class avlTree():
                 substitute = self.min(node.right)
                 node.data = substitute #Simples troca de valores e remoção da posição do antigo nó
                 node.right = self.remove(substitute, node.right)
+    
+    def get_balance(self, node = None):
+        if node is None:
+            return 0
+        
+        fb = self.height(node.right) - self.height(node.left)
+
+        return fb
