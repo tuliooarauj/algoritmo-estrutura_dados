@@ -14,7 +14,7 @@ class TreeNode:
 class BinaryTree:
     def __init__(self, data = None, tree_node = None):
         if tree_node: #Permitir a possibilidade de criação de uma árvore ou sub-árvore dado que já existe um nó.
-            self.root = None
+            self.root = tree_node
         elif data:
             node = TreeNode(data)
             self.root = node
@@ -141,6 +141,6 @@ class BinarySearchTree(BinaryTree):
                 node.right = self.remove(substitute, node.right)
         
         return node
-         
+
 if __name__ == "__main__":
     pass

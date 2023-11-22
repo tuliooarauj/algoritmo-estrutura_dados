@@ -32,11 +32,13 @@ bst.inorder_traversal()
 print('\n------')
 v = 61
 bst.remove(v)
+print(bst.height())
 
 print(f'Após remover {v}')
 bst.inorder_traversal()
 print('\n')
 bst.levelorder_traversal()
+print(bst.height())
 
 print('\n------')
 print('Máximo: ', bst.max())
@@ -47,5 +49,4 @@ print('Mínimo: ', bst.min())
     if r is None:
         print(item, ' não encontrado')
     else:
-        print(r.root.data, ' encontrado')
-'''
+        print(r.root.data, ' encontrado')'''
