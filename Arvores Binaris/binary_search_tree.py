@@ -121,6 +121,7 @@ class BinarySearchTree(BinaryTree):
             node = self.root
         
         #Busca do elemento por recursão, retornando sempre a sub-árvore a esquerda ou direita do nó inicial até encontrar o elemento a ser removido.
+        #Substituir por None é o mesmo que remover
         if node is None:
             return node
 
@@ -134,6 +135,7 @@ class BinarySearchTree(BinaryTree):
             elif node.right is None:
                 return node.left
             else:
+                #Apenas substituindo o dado removido pelo seu sucessor e removendo a referência desse sucessor na antiga árvore
                 substitute = self.min(node.right)
                 node.data = substitute
                 node.right = self.remove(substitute, node.right)
