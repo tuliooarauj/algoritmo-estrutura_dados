@@ -75,36 +75,39 @@ class avlTree():
             return hright + 1
         return hleft + 1
     
-    def insert(self, root, value):
-        
-        if not root: 
-            return TreeNode(value) 
-        elif value < root.data: 
-            root.left = self.insert(root.left, value) 
-        else: 
-            root.right = self.insert(root.right, value) 
+    def insert(self, node, value):
 
-        balance_factor = self.get_balance(root)
+        already_in = self.search(value)
+        if not already_in:
+ 
+            if not node: 
+                return TreeNode(value) 
+            elif value < node.data: 
+                node.left = self.insert(node.left, value) 
+            else: 
+                node.right = self.insert(node.right, value) 
 
-        #Left Left Case --> Right-rotate
-        if balance_factor <= -2 and value < root.left.data: 
-            return self.right_rotate(root)
-        
-        #Right Right Case --> Left-rotate
-        if balance_factor >= 2 and value > root.right.data:
-            return self.left_rotate(root)
-        
-        #Left Right Case --> Left-rotate -> Right rotate
-        if balance_factor <= -2 and value > root.left.data:
-            root.left = self.left_rotate(root.left)
-            return self.right_rotate(root)
-        
-        #Right Left Case --> Right-rotate -> Left rotate
-        if balance_factor >= 2 and value < root.right.data:
-            root.right = self.right_rotate(root.right)
-            return self.left_rotate(root)
+            balance_factor = self.get_balance(node)
 
-        return root
+            #Left Left Case --> Right-rotate
+            if balance_factor <= -2 and value < node.left.data: 
+                return self.right_rotate(node)
+            
+            #Right Right Case --> Left-rotate
+            if balance_factor >= 2 and value > node.right.data:
+                return self.left_rotate(node)
+            
+            #Left Right Case --> Left-rotate -> Right rotate
+            if balance_factor <= -2 and value > node.left.data:
+                node.left = self.left_rotate(node.left)
+                return self.right_rotate(node)
+            
+            #Right Left Case --> Right-rotate -> Left rotate
+            if balance_factor >= 2 and value < node.right.data:
+                node.right = self.right_rotate(node.right)
+                return self.left_rotate(node)
+
+        return node 
     
     def search(self, value, node = 0): # Busca por um valor começando pela raiz ou nó desejado
         if node == 0:
@@ -147,7 +150,7 @@ class avlTree():
         return node.data
 
     def remove(self, node, value):
-        if node is None:
+        if node == ROOT:
             node = self.root
 
         #Busca do elemento por recursão, retornando sempre a sub-árvore a esquerda ou direita do nó inicial até encontrar o elemento a ser removido.
@@ -156,9 +159,9 @@ class avlTree():
             return node
         
         if value < node.data:
-            node.left = self.remove(node.left, value)
+            node.left = self.remove(value, node.left)
         elif value > node.data:
-            node.right = self.remove(node.right, value)
+            node.right = self.remove(value, node.right)
         else:
             if node.left is None:
                 return node.right
@@ -167,28 +170,29 @@ class avlTree():
             else:
                 substitute = self.min(node.right)
                 node.data = substitute #Simples troca de valores e remoção da posição do antigo nó
-                node.right = self.remove(node.right, value)
+                node.right = self.remove(substitute, node.right)
             
-        balance_factor = self.get_balance(root)
+        balance_factor = self.get_balance(node)
 
         #Left Left Case --> Right-rotate
-        if balance_factor <= -2 and self.get_balance(root.left) >= 0: 
-            return self.right_rotate(root)
+        if balance_factor <= -2 and self.get_balance(node.left) >= 0: 
+            return self.right_rotate(node)
         
         #Right Right Case --> Left-rotate
-        if balance_factor >= 2 and self.get_balance(root.right) <= 0:
-            return self.left_rotate(root)
+        if balance_factor >= 2 and self.get_balance(node.right) <= 0:
+            return self.left_rotate(node)
         
         #Left Right Case --> Left-rotate -> Right rotate
-        if balance_factor <= -2 and self.get_balance(root.left) < 0:
-            root.left = self.left_rotate(root.left) 
-            return self.right_rotate(root)
+        if balance_factor <= -2 and self.get_balance(node.left) < 0:
+            node.left = self.left_rotate(node.left) 
+            return self.right_rotate(node)
         
         #Right Left Case --> Right-rotate -> Left rotate
-        if balance_factor >= 2 and self.get_balance(root.right) > 0:
-            root.right = self.right_rotate(root.right)
-            return self.left_rotate(root)
+        if balance_factor >= 2 and self.get_balance(node.right) > 0:
+            node.right = self.right_rotate(node.right)
+            return self.left_rotate(node)
         
+        return node
     
     def get_balance(self, node = None):
         if node is None:
