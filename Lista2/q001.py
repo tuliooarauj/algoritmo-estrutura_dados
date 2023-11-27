@@ -118,6 +118,18 @@ class avlTree():
             return self.search(value, node.left)
         return self.search(value, node.right)
     
+    def level_search(self, value, node = 0, level = 1):
+        if node == 0:
+            node = self.root
+        elif node is None:
+            return node
+        elif node.data == value:
+            return level
+        
+        if value < node.data:
+            return self.level_search(value, node.left, level + 1)
+        return self.level_search(value, node.right, level + 1)
+    
     def min(self, node = ROOT):
         if node == ROOT:
             node = self.root
@@ -134,8 +146,8 @@ class avlTree():
             node = node.right
         return node.data
 
-    def remove(self, value, node = ROOT):
-        if node == ROOT:
+    def remove(self, node, value):
+        if node is None:
             node = self.root
 
         #Busca do elemento por recursão, retornando sempre a sub-árvore a esquerda ou direita do nó inicial até encontrar o elemento a ser removido.
@@ -144,9 +156,9 @@ class avlTree():
             return node
         
         if value < node.data:
-            node.left = self.remove(value, node.left)
+            node.left = self.remove(node.left, value)
         elif value > node.data:
-            node.right = self.remove(value, node.right)
+            node.right = self.remove(node.right, value)
         else:
             if node.left is None:
                 return node.right
@@ -155,29 +167,28 @@ class avlTree():
             else:
                 substitute = self.min(node.right)
                 node.data = substitute #Simples troca de valores e remoção da posição do antigo nó
-                node.right = self.remove(substitute, node.right)
+                node.right = self.remove(node.right, value)
             
-        balance_factor = self.get_balance(node)
+        balance_factor = self.get_balance(root)
 
         #Left Left Case --> Right-rotate
-        if balance_factor <= -2 and self.get_balance(node.left) >= 0: 
-            return self.right_rotate(node)
+        if balance_factor <= -2 and self.get_balance(root.left) >= 0: 
+            return self.right_rotate(root)
         
         #Right Right Case --> Left-rotate
-        if balance_factor >= 2 and self.get_balance(node.right) <= 0:
-            return self.left_rotate(node)
+        if balance_factor >= 2 and self.get_balance(root.right) <= 0:
+            return self.left_rotate(root)
         
         #Left Right Case --> Left-rotate -> Right rotate
-        if balance_factor <= -2 and self.get_balance(node.left) < 0:
-            node.left = self.left_rotate(node.left) 
-            return self.right_rotate(node)
+        if balance_factor <= -2 and self.get_balance(root.left) < 0:
+            root.left = self.left_rotate(root.left) 
+            return self.right_rotate(root)
         
         #Right Left Case --> Right-rotate -> Left rotate
-        if balance_factor >= 2 and self.get_balance(node.right) > 0:
-            node.right = self.right_rotate(node.right)
-            return self.left_rotate(node)
+        if balance_factor >= 2 and self.get_balance(root.right) > 0:
+            root.right = self.right_rotate(root.right)
+            return self.left_rotate(root)
         
-        return node
     
     def get_balance(self, node = None):
         if node is None:
@@ -208,25 +219,3 @@ class avlTree():
 
         self.root = aux
         return self.root #Nó que "subiu" é retornado como nova raiz
-
-
-myTree = avlTree()
-root = None
-nums = [9, 5, 10, 0, 6, 11, -1, 1, 2]
- 
-for num in nums:
-    root = myTree.insert(root, num)
- 
-# Preorder Traversal
-print("Preorder Traversal after insertion -")
-myTree.preOrder(root)
-print()
-
-# Delete 
-key = 89
-root = myTree.remove(key, root)
- 
-# Preorder Traversal
-print(f"Preorder Traversal after deletion of {key}-")
-myTree.preOrder(root)
-print()
