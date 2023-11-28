@@ -6,9 +6,6 @@ class TreeNode():
         self.left = None
         self.right = None
 
-    def __str__(self) -> str: #Retornando o dado do nó em string
-        return str(self.data)
-    
 class avlTree():
     def __init__(self, data = None, tree_node = None):
         if tree_node:
@@ -26,17 +23,33 @@ class avlTree():
         if node.left:
             self.inOrder(node.left)
         
-        print(node, end = ',')
+        if node.data == self.max():
+            print(node.data, end='')
+        else:
+            print(node.data, end = ',')
 
         if node.right:
             self.inOrder(node.right)
 
+    def find_rightmost_leaf(self, node = ROOT):
+        if node == ROOT:
+            node = self.root
+
+        while node.right:
+            node = node.right
+        if node.left:
+            node = node.left
+        return node
+
     def preOrder(self, node = None):
         if node is None:
             node = self.root
-        
-        print(node, end = ',')
 
+        if node == self.find_rightmost_leaf():
+            print(node.data, end='')
+        else:
+            print(node.data, end = ',')
+        
         if node.left:
             self.preOrder(node.left)
 
@@ -53,7 +66,10 @@ class avlTree():
         if node.right:
             self.postOrder(node.right)
 
-        print(node, end = ',')
+        if node == self.root:
+            print(node.data, end='')
+        else:
+            print(node.data, end = ',')
 
     def height(self, node = ROOT):
         if node == ROOT:
@@ -77,42 +93,39 @@ class avlTree():
     
     def insert(self, node, value):
 
-        already_in = self.search(value)
-        if not already_in:
- 
-            if not node: 
-                return TreeNode(value) 
-            elif value < node.data: 
-                node.left = self.insert(node.left, value) 
-            else: 
-                node.right = self.insert(node.right, value) 
+        if not node: 
+            return TreeNode(value) 
+        elif value < node.data: 
+            node.left = self.insert(node.left, value) 
+        else: 
+            node.right = self.insert(node.right, value) 
 
-            balance_factor = self.get_balance(node)
+        balance_factor = self.get_balance(node)
 
-            #Left Left Case --> Right-rotate
-            if balance_factor <= -2 and value < node.left.data: 
-                return self.right_rotate(node)
-            
-            #Right Right Case --> Left-rotate
-            if balance_factor >= 2 and value > node.right.data:
-                return self.left_rotate(node)
-            
-            #Left Right Case --> Left-rotate -> Right rotate
-            if balance_factor <= -2 and value > node.left.data:
-                node.left = self.left_rotate(node.left)
-                return self.right_rotate(node)
-            
-            #Right Left Case --> Right-rotate -> Left rotate
-            if balance_factor >= 2 and value < node.right.data:
-                node.right = self.right_rotate(node.right)
-                return self.left_rotate(node)
+        #Left Left Case --> Right-rotate
+        if balance_factor <= -2 and value < node.left.data: 
+            return self.right_rotate(node)
+        
+        #Right Right Case --> Left-rotate
+        if balance_factor >= 2 and value > node.right.data:
+            return self.left_rotate(node)
+        
+        #Left Right Case --> Left-rotate -> Right rotate
+        if balance_factor <= -2 and value > node.left.data:
+            node.left = self.left_rotate(node.left)
+            return self.right_rotate(node)
+        
+        #Right Left Case --> Right-rotate -> Left rotate
+        if balance_factor >= 2 and value < node.right.data:
+            node.right = self.right_rotate(node.right)
+            return self.left_rotate(node)
 
         return node 
     
-    def search(self, value, node = 0): # Busca por um valor começando pela raiz ou nó desejado
+    def search(self, value, node = 0): 
         if node == 0:
             node = self.root
-        if node is None: #Valor não encontrado
+        if node is None: 
             return node
         elif node.data == value:
             return avlTree(node)
@@ -153,8 +166,6 @@ class avlTree():
         if node == ROOT:
             node = self.root
 
-        #Busca do elemento por recursão, retornando sempre a sub-árvore a esquerda ou direita do nó inicial até encontrar o elemento a ser removido.
-        #Substituir por None é o mesmo que remover
         if node is None:
             return node
         
@@ -169,7 +180,7 @@ class avlTree():
                 return node.left
             else:
                 substitute = self.min(node.right)
-                node.data = substitute #Simples troca de valores e remoção da posição do antigo nó
+                node.data = substitute 
                 node.right = self.remove(substitute, node.right)
             
         balance_factor = self.get_balance(node)
@@ -209,20 +220,20 @@ class avlTree():
         aux2 = aux.left 
 
         aux.left = node
-        node.right = aux2 #Nó que "desceu" recebe à direita a árvore à esquerda do nó que "subiu"
+        node.right = aux2 
 
         self.root = aux
-        return self.root #Nó que "subiu" é retornado como nova raiz
+        return self.root 
 
     def right_rotate(self, node):
         aux = node.left
         aux2 = aux.right
 
         aux.right = node
-        node.left = aux2 # Nó que "desceu" recebe à esquerda a árvore à direita do nó que "subiu"
+        node.left = aux2 
 
         self.root = aux
-        return self.root #Nó que "subiu" é retornado como nova raiz
+        return self.root 
 
 def main():
     tree = avlTree()
@@ -238,15 +249,17 @@ def main():
 
             if solicitation[0] == 'ADICIONA':
                 value = int(solicitation[1])
+                already_in = tree.search(value)
 
-                tree.root = tree.insert(tree.root, value)
+                if not already_in:
+                    tree.root = tree.insert(tree.root, value)
 
             elif solicitation[0] == 'REMOVE':
                 value = int(solicitation[1])
                 is_removable = tree.search(value)
 
                 if is_removable:
-                    result = tree.remove(value) 
+                    tree.root = tree.remove(value, tree.root) 
                 else:
                     print('Valor {} inexistente'.format(value))
 
