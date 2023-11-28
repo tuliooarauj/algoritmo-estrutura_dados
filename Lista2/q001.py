@@ -26,7 +26,7 @@ class avlTree():
         if node.left:
             self.inOrder(node.left)
         
-        print(node, end = ' ')
+        print(node, end = ',')
 
         if node.right:
             self.inOrder(node.right)
@@ -35,7 +35,7 @@ class avlTree():
         if node is None:
             node = self.root
         
-        print(node, end = ' ')
+        print(node, end = ',')
 
         if node.left:
             self.preOrder(node.left)
@@ -53,7 +53,7 @@ class avlTree():
         if node.right:
             self.postOrder(node.right)
 
-        print(node, end = ' ')
+        print(node, end = ',')
 
     def height(self, node = ROOT):
         if node == ROOT:
@@ -112,7 +112,7 @@ class avlTree():
     def search(self, value, node = 0): # Busca por um valor começando pela raiz ou nó desejado
         if node == 0:
             node = self.root
-        elif node is None: #Valor não encontrado
+        if node is None: #Valor não encontrado
             return node
         elif node.data == value:
             return avlTree(node)
@@ -121,14 +121,13 @@ class avlTree():
             return self.search(value, node.left)
         return self.search(value, node.right)
     
-    def level_search(self, value, node = 0, level = 1):
+    def level_search(self, value, node = 0, level = 0):
         if node == 0:
             node = self.root
-        elif node is None:
+        if node is None:
             return node
         elif node.data == value:
             return level
-        
         if value < node.data:
             return self.level_search(value, node.left, level + 1)
         return self.level_search(value, node.right, level + 1)
@@ -149,7 +148,8 @@ class avlTree():
             node = node.right
         return node.data
 
-    def remove(self, node, value):
+    def remove(self, value, node = ROOT):
+        
         if node == ROOT:
             node = self.root
 
@@ -223,3 +223,58 @@ class avlTree():
 
         self.root = aux
         return self.root #Nó que "subiu" é retornado como nova raiz
+
+def main():
+    tree = avlTree()
+    solicitation = None
+
+    while solicitation != 'FIM':
+        
+        solicitation = input()
+
+        if not solicitation == 'FIM':
+            
+            solicitation = solicitation.split()
+
+            if solicitation[0] == 'ADICIONA':
+                value = int(solicitation[1])
+
+                tree.root = tree.insert(tree.root, value)
+
+            elif solicitation[0] == 'REMOVE':
+                value = int(solicitation[1])
+                is_removable = tree.search(value)
+
+                if is_removable:
+                    result = tree.remove(value) 
+                else:
+                    print('Valor {} inexistente'.format(value))
+
+
+            elif solicitation[0] == 'NIVEL':
+                value = int(solicitation[1])
+                result = tree.level_search(value)
+
+                if result is None:
+                    print('Valor {} inexistente'.format(value))
+                else:
+                    print('Nivel de {}: {}'.format(value, result))
+
+            elif solicitation[0] == 'PRINT':
+                if solicitation[1] == 'PREORDEM':
+                    print('[', end='')
+                    tree.preOrder(tree.root)
+                    print(']')
+
+                elif solicitation[1] == 'EMORDEM':
+                    print('[', end='')
+                    tree.inOrder(tree.root)
+                    print(']')
+
+                elif solicitation[1] == 'POSORDEM':
+                    print('[', end='')
+                    tree.postOrder(tree.root)
+                    print(']')
+
+if __name__ == '__main__':
+    main()
