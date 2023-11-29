@@ -186,20 +186,20 @@ class avlTree():
         balance_factor = self.get_balance(node)
 
         #Left Left Case --> Right-rotate
-        if balance_factor <= -2 and self.get_balance(node.left) >= 0: 
+        if balance_factor <= -2 and self.get_balance(node.left) <= 0: 
             return self.right_rotate(node)
         
         #Right Right Case --> Left-rotate
-        if balance_factor >= 2 and self.get_balance(node.right) <= 0:
+        if balance_factor >= 2 and self.get_balance(node.right) >= 0:
             return self.left_rotate(node)
         
         #Left Right Case --> Left-rotate -> Right rotate
-        if balance_factor <= -2 and self.get_balance(node.left) < 0:
+        if balance_factor <= -2 and self.get_balance(node.left) > 0:
             node.left = self.left_rotate(node.left) 
             return self.right_rotate(node)
         
         #Right Left Case --> Right-rotate -> Left rotate
-        if balance_factor >= 2 and self.get_balance(node.right) > 0:
+        if balance_factor >= 2 and self.get_balance(node.right) < 0:
             node.right = self.right_rotate(node.right)
             return self.left_rotate(node)
         
@@ -242,6 +242,9 @@ def main():
     while solicitation != 'FIM':
         
         solicitation = input()
+
+        if solicitation == 'REMOVE 12':
+            pass
 
         if not solicitation == 'FIM':
             
