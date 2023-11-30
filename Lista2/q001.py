@@ -5,6 +5,7 @@ class TreeNode():
         self.data = data
         self.left = None
         self.right = None
+        self.height = 1
 
 class avlTree():
     def __init__(self, data = None, tree_node = None):
@@ -67,19 +68,8 @@ class avlTree():
         
         if node is None:
             return 0
-
-        hleft = 0
-        hright = 0
         
-        if node.left:
-            hleft = self.height(node.left)
-
-        if node.right:
-            hright = self.height(node.right)
-
-        if hright > hleft:
-            return hright + 1
-        return hleft + 1
+        return node.height
     
     def insert(self, node, value):
 
@@ -88,7 +78,9 @@ class avlTree():
         elif value < node.data: 
             node.left = self.insert(node.left, value) 
         else: 
-            node.right = self.insert(node.right, value) 
+            node.right = self.insert(node.right, value)
+
+        node.height = 1 + self.biggest(self.height(node.left), self.height(node.right))
 
         balance_factor = self.get_balance(node)
 
@@ -144,6 +136,11 @@ class avlTree():
         
         return self.min(node.left)
     
+    def biggest(self, elem1, elem2):
+        if elem1 > elem2:
+            return elem1
+        return elem2
+    
     def max(self, node = ROOT):
         if node == ROOT:
             node = self.root
@@ -173,6 +170,8 @@ class avlTree():
                 substitute = self.min(node.right)
                 node.data = substitute 
                 node.right = self.remove(substitute, node.right)
+        
+        node.height = 1 + self.biggest(self.height(node.left), self.height(node.right))
             
         balance_factor = self.get_balance(node)
 
@@ -213,6 +212,9 @@ class avlTree():
         aux.left = node
         node.right = aux2 
 
+        node.height = 1 + self.biggest(self.height(node.left), self.height(node.right))
+        aux.height = 1 + self.biggest(self.height(aux.left), self.height(aux.right))
+
         self.root = aux
         return self.root 
 
@@ -223,8 +225,11 @@ class avlTree():
         aux.right = node
         node.left = aux2 
 
+        node.height = 1 + self.biggest(self.height(node.left), self.height(node.right))
+        aux.height = 1 + self.biggest(self.height(aux.left), self.height(aux.right))
+
         self.root = aux
-        return self.root 
+        return self.root
 
 def main():
     tree = avlTree()
