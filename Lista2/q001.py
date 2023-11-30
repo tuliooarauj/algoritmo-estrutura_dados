@@ -26,29 +26,19 @@ class avlTree():
         if node.data == self.max():
             print(node.data, end='')
         else:
-            print(node.data, end = ',')
+            print(node.data, end=',')
 
         if node.right:
             self.inOrder(node.right)
 
-    def find_rightmost_leaf(self, node = ROOT):
-        if node == ROOT:
-            node = self.root
-
-        while node.right:
-            node = node.right
-        if node.left:
-            node = node.left
-        return node
-
     def preOrder(self, node = None):
         if node is None:
             node = self.root
-
-        if node == self.find_rightmost_leaf():
+        #melhor procurar pro elemento do inicio 
+        if node == self.root:
             print(node.data, end='')
         else:
-            print(node.data, end = ',')
+            print(','+ str(node.data), end = '')
         
         if node.left:
             self.preOrder(node.left)
@@ -149,9 +139,10 @@ class avlTree():
         if node == ROOT:
             node = self.root
 
-        while node.left:
-            node = node.left
-        return node.data
+        if node is None or node.left is None:
+            return node.data
+        
+        return self.min(node.left)
     
     def max(self, node = ROOT):
         if node == ROOT:
