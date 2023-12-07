@@ -239,9 +239,6 @@ def main():
         
         solicitation = input()
 
-        if solicitation == 'REMOVE 12':
-            pass
-
         if not solicitation == 'FIM':
             
             solicitation = solicitation.split()
@@ -262,7 +259,6 @@ def main():
                 else:
                     print('Valor {} inexistente'.format(value))
 
-
             elif solicitation[0] == 'NIVEL':
                 value = int(solicitation[1])
                 result = tree.level_search(value)
@@ -274,19 +270,22 @@ def main():
 
             elif solicitation[0] == 'PRINT':
                 if solicitation[1] == 'PREORDEM':
-                    print('[', end='')
-                    tree.preOrder(tree.root)
-                    print(']')
+                    if not tree.root == None:
+                        print('[', end='')
+                        tree.preOrder(tree.root)
+                        print(']')
 
                 elif solicitation[1] == 'EMORDEM':
-                    print('[', end='')
-                    tree.inOrder(tree.root)
-                    print(']')
+                    if not tree.root == None:
+                        print('[', end='')
+                        tree.inOrder(tree.root)
+                        print(']')
 
                 elif solicitation[1] == 'POSORDEM':
-                    print('[', end='')
-                    tree.postOrder(tree.root)
-                    print(']')
+                    if not tree.root == None:
+                        print('[', end='')
+                        tree.postOrder(tree.root)
+                        print(']')
 
 if __name__ == '__main__':
     main()
