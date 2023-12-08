@@ -64,8 +64,31 @@ def merge(lista, inicio, meio, fim):
             lista[k] = right[top_right]
             top_right += 1
 
+def quick_sort(lista, inicio=0, fim=None):
+    if fim is None:
+        fim = len(lista) - 1
+    if inicio < fim:
+        pivot = partition(lista, inicio, fim)
+        quick_sort(lista, inicio, pivot - 1)
+        quick_sort(lista, pivot + 1, fim)
+    return lista
+
+def partition(lista, inicio, fim):
+    pivot = lista[fim]
+    i = inicio
+    for j in range(inicio, fim):
+        if lista[j] <= pivot:
+            aux = lista[j] 
+            lista[j] = lista[i]
+            lista[i] = aux
+        i += 1
+    aux2 = lista[i]
+    lista[i] = lista[fim]
+    lista[fim] = aux2
+    return i
 
 print(bubble_sort(lista))
 print(selection_sort(lista))
 print(insertion_sort(lista))
 print(merge_sort(lista))
+print(quick_sort(lista))
