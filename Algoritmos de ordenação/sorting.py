@@ -51,7 +51,11 @@ def merge(lista, inicio, meio, fim):
     top_left = 0
     top_right = 0
     for k in range(inicio, fim):
-        if top_left >= len(left):
+        '''Caso onde a sublista da esquerda é toda menor que a sublista da direita, 
+        dessa forma é preciso verificar se ainda há elementos a ser comparados já que toda vez o topo
+        é incrementado.
+        '''    
+        if top_left >= len(left): 
             lista[k] = right[top_right]
             top_right += 1
         elif top_right >= len(right):
