@@ -1,4 +1,14 @@
-lista = [7,5,1,8,3]
+import random
+
+any_numbers = random.sample(range(1, 1000), 42)
+
+already_sorted = [1, 2, 3, 4, 5, 6, 9, 20, 22, 23, 28, 
+                    32, 34, 39, 40, 42, 76, 87, 99, 112]
+
+inversed = [117, 90, 88, 83, 81, 77, 74, 69, 64, 63, 51,
+            50, 49, 42, 41, 34, 32, 29, 28, 22, 16, 8, 6, 5, 3, 1]
+
+repeated = [7, 7, 7, 7, 7, 1, 1, 9, 9, 0, 4, 4, 4, 5, 4, 5, 7, 1,]
 
 def selection_sort(lista):
     n = len(lista)
@@ -85,14 +95,18 @@ def partition(lista, inicio, fim):
             aux = lista[j] 
             lista[j] = lista[i]
             lista[i] = aux
-        i += 1
-    aux2 = lista[i]
+            i += 1
+    aux2 = lista[i] 
     lista[i] = lista[fim]
     lista[fim] = aux2
     return i
 
-print(bubble_sort(lista))
-print(selection_sort(lista))
-print(insertion_sort(lista))
-print(merge_sort(lista))
-print(quick_sort(lista))
+print(bubble_sort(any_numbers))
+print('==================================')
+print(selection_sort(any_numbers))
+print('==================================')
+print(insertion_sort(any_numbers))
+print('==================================')
+print(merge_sort(any_numbers))
+print('==================================')
+print(quick_sort(any_numbers))
