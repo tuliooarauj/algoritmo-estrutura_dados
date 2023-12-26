@@ -97,7 +97,7 @@ def main():
                 idx_in_position = hash_table[position].index(name) + 1
 
             if idx_in_position is None or hash_table[position] is None:
-                print('{} - NOT FOUND'.format(position))
+                print('404 - NOT FOUND')
             else:
                 print(position, idx_in_position)
 
@@ -107,10 +107,12 @@ def main():
             hash_table[position].inserir(name)
 
         else:
-            resultado = hash_table[position].remove(name)
-            
-            if resultado is True:
-                print('DELETADO')
+            if hash_table[position]:
+                resultado = hash_table[position].remove(name)
+
+                if resultado is True:
+                    print('DELETADO')
+                
 
         j += 1
         
