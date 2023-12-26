@@ -11,27 +11,20 @@ class LinkedList():
         self.head = None
         self._size = 0
         
-        
     def inserir(self, element):
-        if self.head: 
-            pointer = self.head
-            while pointer.next: 
-                pointer = pointer.next
-
-            pointer.next = Node(element)
-
-        else:
-            self.head = Node(element)
+        node = Node(element)
+        node.next = self.head
+        self.head = node
 
         self._size +=1 
     
     def remove(self, element):
         if self.head is None:
-            raise ValueError('{} - NOT FOUND'.format(element))
+            return None
         elif self.head.data == element:
             self.head = self.head.next
             self._size -= 1
-            return 'DELETADO'
+            return True
         else:
             prev = self.head
             pointer = self.head.next
@@ -40,12 +33,12 @@ class LinkedList():
                     prev.next = pointer.next
                     pointer.next = None
                     self._size -= 1
-                    return 'DELETADO'
+                    return True
                 else:
                     prev = pointer
                     pointer = pointer.next
             
-            raise ValueError('{} - NOT FOUND'.format(element))
+            return None
 
     def index(self, element): 
         pointer = self.head
@@ -56,6 +49,8 @@ class LinkedList():
                 return i
             pointer = pointer.next
             i += 1
+        return None
+
 def return_ascii(character):
     return ord(character)
 
@@ -82,8 +77,43 @@ def main():
     while i < n_entrance:
         name = input().split()[1]
         position = hash_function(name, table_size)
-        hash_table[position] = LinkedList()
+        if not hash_table[position]:
+            hash_table[position] = LinkedList()
         hash_table[position].inserir(name)
+
+        i += 1
+
+    n_ops = int(input())
+    j = 0
+
+    while j < n_ops:
+        operation_name = input().split()
+        operation = operation_name[0]
+        name = operation_name[1]
+        position = hash_function(name, table_size)
+
+        if operation == 'GET':
+            if hash_table[position]:
+                idx_in_position = hash_table[position].index(name) + 1
+
+            if idx_in_position is None or hash_table[position] is None:
+                print('{} - NOT FOUND'.format(position))
+            else:
+                print(position, idx_in_position)
+
+        elif operation == 'POST':
+            if not hash_table[position]:
+                hash_table[position] = LinkedList()
+            hash_table[position].inserir(name)
+
+        else:
+            resultado = hash_table[position].remove(name)
+            
+            if resultado is True:
+                print('DELETADO')
+
+        j += 1
         
 
-main()
+if __name__ == '__main__':
+    main()
