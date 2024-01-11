@@ -21,6 +21,7 @@ def switch(array, elem1, elem2):
 def max_heapify(array, idx):
 
     if not idx < 0:
+        
         left_idx = left(idx)
         right_idx = right(idx)
         if left_idx <= array_size - 1 and array[left_idx] > array[idx]:
@@ -39,26 +40,28 @@ def max_heapify(array, idx):
 
 def min_heapify(array, idx):
 
-    left_idx = left(idx)
-    right_idx = right(idx)
+    if not idx < 0:
 
-    if left_idx <= array_size and array[left_idx] < array[idx]:
+        left_idx = left(idx)
+        right_idx = right(idx)
 
-        menor = left_idx
-    else:
-        menor = idx
-    
-    if right_idx <= array_size and array[right_idx] < array[menor]:
+        if left_idx <= array_size - 1 and array[left_idx] < array[idx]:
 
-        menor = right_idx
-    
-    if menor != idx:
-        switch(array, idx, menor)
-        min_heapify(array, menor)
+            menor = left_idx
+        else:
+            menor = idx
+        
+        if right_idx <= array_size - 1 and array[right_idx] < array[menor]:
+
+            menor = right_idx
+        
+        if menor != idx:
+            switch(array, idx, menor)
+            min_heapify(array, menor)
 
 def build_min_heap(array):
     for idx in range ((array_size//2), -1, -1):
-        min_heapify(array,idx - 1)
+        min_heapify(array, idx - 1)
 
 def build_max_heap(array):
     for idx in range((array_size//2), -1, -1):
@@ -76,7 +79,7 @@ v3= [1, 2, 3, 9, 8, 7, 6, 5, 4, 20, 30, 40, 50, 60]
 for v in [v1, v2, v3]:
 
   array_size = len_heap(v)
-  build_max_heap(v)
+  build_min_heap(v)
   print(v)
 
 
