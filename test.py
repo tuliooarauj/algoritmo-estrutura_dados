@@ -1,9 +1,5 @@
-def encontra_menor(array):
-    menor = array[0]
-    for element in array:
-        if element < menor:
-            menor = element
-    
-    return menor
+n1 = ((0.5*8.7)+(0.5 * 8.5)+(2*5.4))/3
+n2 = (8.5 + (2*7))/3
+n3 = 
 
-print(encontra_menor([1,2,3,4,5,1,231,321,312,1,0,-20]))
+print(n)
