@@ -87,6 +87,12 @@ class Grafo:
         for vertice in self.grafo:
             print(vertice)
 
+    def mostra_adj(self, vertice):
+        pointer = self.grafo[vertice - 1].head
+        while pointer:
+            print(pointer.data)
+            pointer = pointer.next
+
 
 g = Grafo(3)
 
@@ -94,5 +100,7 @@ g.adiciona_aresta(1,2)
 g.adiciona_aresta(1,3)
 g.adiciona_aresta(2,1)
 g.adiciona_aresta(2,3)
+
+g.mostra_adj(1)
 
 g.mostra_grafo()
