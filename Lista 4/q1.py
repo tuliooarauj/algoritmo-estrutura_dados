@@ -62,11 +62,48 @@ class Grafo:
 
     def dfs(self, vertice, antecessor, visitado):
         visitado[vertice] = True
-        print(vertice)
+        print(vertice, end=' ')
         lista_adj = self.mostra_adj(vertice)
         if lista_adj:
             for u in lista_adj:
                 if not visitado[u]:
                     antecessor[u] = vertice
                     self.dfs(u, antecessor, visitado)
+    
+    def mostra_grafo(self):
+        i = 0
+        for vertice in self.grafo:
+            print(i,': ',end='')
+            if vertice is not None:
+                for element in vertice:
+                    actual_vertice = vertice
+                    print(element,end=' ')
+                print()
+            else:
+                print('Lista vazia')
+            i+=1
 
+def main():
+
+    n_vertices = int(input())
+
+    grafo = Grafo(n_vertices)
+
+    for _ in range(n_vertices + 1):
+
+        relacao = input().split()
+
+        u = int(relacao[0])
+        v = int(relacao[1])
+        continuidade = int(relacao[2])
+
+        grafo.adiciona_aresta_naoDirecionado(u, v)
+
+        if continuidade == 0:
+            grafo.mostra_grafo()
+            print()
+            grafo.busca_profundidade()
+                
+
+if __name__ == '__main__':
+    main()
