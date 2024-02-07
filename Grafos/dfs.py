@@ -4,15 +4,8 @@ def busca_profundidade(grafo, v_inicial = 0):
 
     visitado = [False] * grafo.vertice
     antecessor = [-1] * grafo.vertice
-
-    '''for j in range(grafo.vertice):
-        if not visitado[j]:
-            dfs(g, j, antecessor, visitado)'''
     
     dfs(g, v_inicial, antecessor, visitado)
-
-    '''for i in range(grafo.vertice):
-        print(antecessor[i])'''
 
     visitado = []
     antecessor = []
@@ -37,6 +30,3 @@ g.adiciona_aresta(2,3)
 g.adiciona_aresta(3,3)
 
 busca_profundidade(g, 2)
-
-'''g.mostra_adj(1)
-g.mostra_grafo()'''
