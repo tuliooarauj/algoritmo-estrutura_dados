@@ -29,30 +29,31 @@ class Queue:
 
         self._size -=1
 
-        return removed
+        return removed.data
 
 
-def bfs(grafo):
+def bfs(grafo, vertice_inicial = 0):
 
     visitado = [False] * grafo.vertice
     antecessor = [False] * grafo.vertice
     vertices = Queue()
 
-    for i in range(grafo.vertice):
-        if not visitado[i]:
-            vertices.push(i)
-            visitado[i] = True
 
-            while vertices._size > 0:
-                
-                vertice_visitado = vertices.remove()
+    if not visitado[vertice_inicial]:
+        vertices.push(vertice_inicial)
+        visitado[vertice_inicial] = True
 
-                for u in grafo.mostra_adj(vertice_visitado):
-                    if not visitado[u]:
-                        visitado[u] = True
-                        antecessor[u] = vertice_visitado
-                        
-                        vertices.push(u)
+        while vertices._size > 0:
+            
+            vertice_visitado = vertices.remove()
+            print(vertice_visitado)
+
+            for u in grafo.mostra_adj(vertice_visitado):
+                if not visitado[u]:
+                    visitado[u] = True
+                    antecessor[u] = vertice_visitado
+                    
+                    vertices.push(u)
 
     visitado = []
     antecessor = []
@@ -66,4 +67,4 @@ g.adiciona_aresta(2,0)
 g.adiciona_aresta(2,3)
 g.adiciona_aresta(3,3)
 
-bfs(g)
+bfs(g, 2)
