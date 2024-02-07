@@ -1,4 +1,4 @@
-class Node:
+'''class Node:
     def __init__(self, data):
         self.data = data
         self.next = None
@@ -69,38 +69,57 @@ class LinkedList:
             r = r + str(pointer.data) + '->'
             pointer = pointer.next
         
-        return r
+        return r'''
 
 class Grafo:
     def __init__(self, vertice) -> None:
         self.vertice = vertice
-        self.grafo = [[]] * self.vertice
+        self.grafo = [None] * self.vertice
 
-    def adiciona_aresta(self, u, v):
-        if self.grafo[u-1] == []:
-            self.grafo[u-1] = LinkedList()             
-            self.grafo[u-1].insere(v)
+    def adiciona_aresta(self, u, v, idx = 0):
+        if not self.grafo[u]:
+            self.grafo[u] = [None]
+
+        if self.grafo[u][idx] != None:
+           
+           self.grafo[u] += [None]
+           idx += 1
+           self.grafo[u][idx] = v
+
         else:
-            self.grafo[u-1].insere(v)
+            self.grafo[u][idx] = v
 
     def mostra_grafo(self):
+        i = 0
         for vertice in self.grafo:
-            print(vertice)
+            print(i,': ', vertice)
+            i+=1
 
     def mostra_adj(self, vertice):
-        pointer = self.grafo[vertice - 1].head
+        return self.grafo[vertice]
+    
+''' def mostra_adj(self, vertice):
+        lista_adj = []
+        i = 0
+        pointer = self.grafo[vertice].head
         while pointer:
-            print(pointer.data)
+            lista_adj += [None]
+            lista_adj[i] = pointer.data
+            i += 1
             pointer = pointer.next
+        return lista_adj
+        '''
 
+        
 
+'''
 g = Grafo(3)
 
+g.adiciona_aresta(0,1)
+g.adiciona_aresta(0,2)
 g.adiciona_aresta(1,2)
-g.adiciona_aresta(1,3)
-g.adiciona_aresta(2,1)
-g.adiciona_aresta(2,3)
 
-g.mostra_adj(1)
 
-g.mostra_grafo()
+print(g.mostra_adj(0))
+
+g.mostra_grafo()'''
