@@ -20,13 +20,23 @@ def dfs(grafo, vertice, antecessor, visitado):
                 antecessor[u] = vertice
                 dfs(grafo, u, antecessor, visitado)
 
-g =  Grafo(4)    
+g =  Grafo(6)    
 
-g.adiciona_aresta(0,1)
-g.adiciona_aresta(0,2)
-g.adiciona_aresta(1,2)
-g.adiciona_aresta(2,0)
-g.adiciona_aresta(2,3)
-g.adiciona_aresta(3,3)
+g.adiciona_aresta_naoDirecionado(0,2)
+g.adiciona_aresta_naoDirecionado(0,3)
+g.adiciona_aresta_naoDirecionado(0,4)
+g.adiciona_aresta_naoDirecionado(0,5)
+g.adiciona_aresta_naoDirecionado(2,3)
+g.adiciona_aresta_naoDirecionado(3,4)
+g.adiciona_aresta_naoDirecionado(3,5)
 
-busca_profundidade(g, 2)
+busca_profundidade(g)
+
+'''6 
+0 2 1
+0 3 1
+0 4 1
+0 5 1
+2 3 1
+3 4 1
+3 5 0'''
