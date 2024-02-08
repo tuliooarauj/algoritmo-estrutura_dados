@@ -4,7 +4,7 @@ class Grafo:
         self.grafo = [None] * self.vertice
     
     def adiciona_aresta_naoDirecionado(self, u, v, idx = 0):
-        if not self.grafo[u]: #Primeiro inserção no vertice
+        if not self.grafo[u]:
             self.grafo[u] = [None]
         
         for _ in self.grafo[u]:
@@ -21,12 +21,12 @@ class Grafo:
 
             self.grafo[u][idx] = v
 
-        else: #Primeiro inserção no vertice
+        else:
             self.grafo[u][idx - 1] = v
 
 
 
-        if not self.grafo[v]: #Primeiro inserção no vertice
+        if not self.grafo[v]:
             self.grafo[v] = [None]
 
         idx = 0
@@ -44,7 +44,7 @@ class Grafo:
 
             self.grafo[v][idx] = u
         
-        else: #Primeiro inserção no vertice
+        else:
             self.grafo[v][idx - 1] = u
 
     def mostra_adj(self, vertice):
@@ -73,14 +73,13 @@ class Grafo:
     def mostra_grafo(self):
         i = 0
         for vertice in self.grafo:
-            print(i,': ',end='')
+            print('{}: '.format(i), end='')
             if vertice is not None:
                 for element in vertice:
-                    actual_vertice = vertice
                     print(element,end=' ')
                 print()
             else:
-                print('Lista vazia')
+                print('Lista Vazia')
             i+=1
 
 def main():
