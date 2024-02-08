@@ -84,11 +84,12 @@ class Grafo:
 
 def main():
 
+    continuidade = 1
     n_vertices = int(input())
 
     grafo = Grafo(n_vertices)
 
-    for _ in range(n_vertices + 1):
+    while continuidade != 0:
 
         relacao = input().split()
 
@@ -102,6 +103,7 @@ def main():
             grafo.mostra_grafo()
             print()
             grafo.busca_profundidade()
+
                 
 
 if __name__ == '__main__':
