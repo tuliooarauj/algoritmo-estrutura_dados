@@ -55,13 +55,13 @@ class Grafo:
         else:
             self.grafo[u][idx - 1] = v
     
-    def bfs(self, vertice_inicial = 0):
+    def bfs(self, vertice_inicial):
 
-        visitado = [False] * self.grafo.vertice
-        antecessor = [False] * self.grafo.vertice
+        visitado = [False] * self.qtd_vertice
+        antecessor = [-1] * self.qtd_vertice
         vertices = Queue()
-
-
+        
+        
         if not visitado[vertice_inicial]:
             vertices.push(vertice_inicial)
             visitado[vertice_inicial] = True
@@ -69,35 +69,37 @@ class Grafo:
             while vertices._size > 0:
                 
                 vertice_visitado = vertices.remove()
-                print(vertice_visitado)
+                
 
-                for u in self.grafo.mostra_adj(vertice_visitado):
+                for u in self.mostra_adj(vertice_visitado):
                     if not visitado[u]:
                         visitado[u] = True
                         antecessor[u] = vertice_visitado
                         
                         vertices.push(u)
 
-        visitado = []
-        antecessor = []
+        return antecessor
     
-    def mostra_grafo(self):
-        i = 0
-        for vertice in self.grafo:
-            print('{}: '.format(i), end='')
-            if vertice is not None:
-                for element in vertice:
-                    print(element,end=' ')
-                print()
-            else:
-                print('Lista Vazia')
-            i+=1
+    def mostra_adj(self, vertice):
+        return self.grafo[vertice]
+    
+    def caminho(self, origem, destino, antecessor, qtd_passos = 0):
+        if origem == destino:
+            print(qtd_passos)
+
+        elif antecessor[destino] == -1:
+            print('Labirinto Impossivel')
+
+        else:
+            self.caminho(origem, antecessor[destino], antecessor, qtd_passos + 1)
+        
         
 class Matriz():
     def __init__(self, qtd_linha, qtd_coluna) -> None:
         self.qtd_linha = qtd_linha
         self.qtd_coluna = qtd_coluna
-
+        self.origem = None
+        self.destino = None
         self.matriz = [[0] * qtd_coluna] * qtd_linha
         self.tam_matriz = qtd_coluna * qtd_linha
 
@@ -106,14 +108,16 @@ class Matriz():
         n_linha = 0
         for linha in self.matriz:
             n_coluna = 0
-            for _ in linha:
+            for element in linha:
 
                 vertice_atual = (qtd_coluna * n_linha) + n_coluna
 
-                if vertice_atual == 6:
-                    pass
+                if element == '2':
+                    self.origem = vertice_atual
+                elif element == '3':
+                    self.destino = vertice_atual
                 
-                if (n_coluna - 1) >= 0: #Conectado com a esquerda
+                if (n_coluna - 1) >= 0: 
 
                     conexao_0 = (self.matriz[n_linha][n_coluna - 1] == '0')
                     bloqueado = (self.matriz[n_linha][n_coluna] == '1')
@@ -125,7 +129,7 @@ class Matriz():
                         grafo.adiciona_aresta(vertice_atual, vertice_esquerda)
 
                     
-                if (n_coluna + 1) < self.qtd_coluna: #Conectado com a direita
+                if (n_coluna + 1) < self.qtd_coluna: 
 
                     conexao_0 = (self.matriz[n_linha][n_coluna + 1] == '0')
                     bloqueado = (self.matriz[n_linha][n_coluna] == '1')
@@ -137,7 +141,7 @@ class Matriz():
                         grafo.adiciona_aresta(vertice_atual, vertice_direita)
 
                     
-                if (n_linha - 1) >= 0: #Conectado com acima
+                if (n_linha - 1) >= 0: 
 
                     conexao_0 = (self.matriz[n_linha - 1][n_coluna] == '0')
                     bloqueado = (self.matriz[n_linha][n_coluna] == '1')
@@ -149,7 +153,7 @@ class Matriz():
                         grafo.adiciona_aresta(vertice_atual, vertice_acima)
                     
                     
-                if (n_linha + 1) < self.qtd_linha: #Conectado com abaixo
+                if (n_linha + 1) < self.qtd_linha:
 
                     conexao_0 = (self.matriz[n_linha + 1][n_coluna] == '0')
                     bloqueado = (self.matriz[n_linha][n_coluna] == '1')
@@ -162,8 +166,8 @@ class Matriz():
                     
                 n_coluna += 1
             n_linha += 1
-    
-        grafo.mostra_grafo()
+
+        return grafo
 
 def main():
 
@@ -177,10 +181,12 @@ def main():
         linha = input().split()
         m.matriz[i] = linha
     
-    m.interpreta_labirinto(qtd_coluna)
+    grafo = m.interpreta_labirinto(qtd_coluna)
 
+    v_antecessor = grafo.bfs(m.origem)
 
-    
+    grafo.caminho(m.origem, m.destino, v_antecessor)
+
 
 if __name__ == '__main__':
     main()
