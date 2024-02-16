@@ -34,26 +34,17 @@ class Grafo:
         self.qtd_vertice = qtd_vertice
         self.grafo = [None] * self.qtd_vertice
     
-    def adiciona_aresta(self, u, v, idx = 0):
+    def adiciona_aresta(self, u, v):
         if not self.grafo[u]:
             self.grafo[u] = [None]
-        
-        for _ in self.grafo[u]:
-            idx += 1
 
-        if self.grafo[u][idx - 1] != None:
+        if self.grafo[u][-1] != None:
            
-            self.grafo[u] += [None]
-
-            for _ in range(idx):
-               
-                self.grafo[u][idx] = self.grafo[u][idx - 1]
-                idx -= 1
-
-            self.grafo[u][idx] = v
+           self.grafo[u] += [None]
+           self.grafo[u][len(self.grafo[u]) - 1] = v
 
         else:
-            self.grafo[u][idx - 1] = v
+            self.grafo[u][len(self.grafo[u]) - 1] = v
     
     def bfs(self, vertice_inicial):
 
