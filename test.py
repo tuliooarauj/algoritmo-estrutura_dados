@@ -1,4 +1,3 @@
-lista = [None] * 5
+a = 5==5
 
-lista[0] = 1
-
+print(a)
