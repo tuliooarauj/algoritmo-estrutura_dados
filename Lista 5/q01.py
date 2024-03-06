@@ -70,9 +70,8 @@ class Grafo():
                         
                         vertices.push(u)
         
-        print(n_visitados,end=' ')
-
-    
+        return n_visitados
+ 
 
 def main():
     nUsuarios_nConexoes = input().split()
@@ -89,7 +88,13 @@ def main():
         g.adiciona_aresta(usuario1, usuario2)
     
     for j in range(n_usuarios):
-        g.bfs(j)
+        n_visitados = g.bfs(j)
+        if not j == n_usuarios - 1:
+            print(n_visitados, end=" ")
+        else:
+            print(n_visitados, end="")
+
+    print()
 
 
 if __name__ == "__main__":
