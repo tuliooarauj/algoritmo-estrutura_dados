@@ -1,33 +1,26 @@
-class Node:
-    def __init__(self, data) -> None:
-        self.data = data
-        self.next = None
+class Union_find:
+    def __init__(self, n) -> None:
+        self.pai = [i for i in range(n)]
+        self.rank = [0 for i in range(n)]
 
-class Queue:
-    def __init__(self) -> None:
-        self.head = None
-        self._size = 0
-
-    def push(self, vertice):
-        node = Node(vertice)
-
-        if self._size == 0:
-            self.head = node
-            self.tail = node
-        else:
-            self.tail.next = node
-            self.tail = node
+    def find(self, u):
+        if not self.pai[u] == u:
+            self.pai[u] = self.find(self.pai[u])
         
-        self._size += 1
+        return self.pai[u]
 
-    def remove(self):
-        if not self._size == 0:
-            removed = self.head
-            self.head = self.head.next
+    def union(self, u, v):
+        u = self.find(u)
+        v = self.find(v)
 
-        self._size -=1
-
-        return removed.data
+        if not u == v:
+            if self.rank[u] > self.rank[v]:
+                self.pai[v] = u
+    
+            else:
+                self.pai[u] = v
+                if self.rank[u] == self.rank[v]:
+                    self.rank[v] += 1
 
 
 class Grafo():
@@ -38,39 +31,11 @@ class Grafo():
     def adiciona_aresta(self, u, v):
         self.grafo[u-1][v-1] = 1 
         self.grafo[v-1][u-1] = 1 
-
-    def mostra_matrizAdj(self):
-        for linha in range(self.vertice):
-            print(self.grafo[linha])
     
     def mostra_adj(self, vertice):
         return self.grafo[vertice]
+    
 
-    def bfs(grafo, vertice_inicial = 0):
-
-        visitado = [False] * grafo.vertice
-        antecessor = [False] * grafo.vertice
-        vertices = Queue()
-
-        if not visitado[vertice_inicial]:
-            vertices.push(vertice_inicial)
-            visitado[vertice_inicial] = True
-            n_visitados = 0
-
-            while vertices._size > 0:
-                
-                vertice_visitado = vertices.remove()
-                n_visitados += 1
-
-                adj = grafo.mostra_adj(vertice_visitado)
-                for u in range(len(adj)):
-                    if adj[u] == 1 and not visitado[u]:
-                        visitado[u] = True
-                        antecessor[u] = vertice_visitado
-                        
-                        vertices.push(u)
-        
-        return n_visitados
  
 
 def main():
@@ -79,6 +44,7 @@ def main():
     n_conexoes = int(nUsuarios_nConexoes[1])
 
     g = Grafo(n_usuarios)
+    uf = Union_find(n_usuarios)
 
     for i in range(n_conexoes):
         conexao = input().split()
@@ -88,11 +54,21 @@ def main():
         g.adiciona_aresta(usuario1, usuario2)
     
     for j in range(n_usuarios):
-        n_visitados = g.bfs(j)
-        if not j == n_usuarios - 1:
-            print(n_visitados, end=" ")
+        for k in range(n_usuarios):
+            if g.mostra_adj(j)[k] == 1:
+                uf.union(j, k)
+
+    for l in range(n_usuarios):
+        aparicoes = 0
+        representante_l = uf.pai[l] 
+        for m in uf.pai:
+            if m == representante_l:
+                aparicoes += 1
+
+        if l != n_usuarios:
+            print(aparicoes,end=' ')
         else:
-            print(n_visitados, end="")
+            print(aparicoes,end='')
 
     print()
 

@@ -1,46 +1,36 @@
-def bellman_ford(graph, source):
-    # Step 1: Initialize distances and predecessors
-    distances = {vertex: float('inf') for vertex in graph}
-    distances[source] = 0
-    predecessors = {vertex: None for vertex in graph}
+class Union_find:
+    def __init__(self, n) -> None:
+        self.pai = [i for i in range(n)]
+        self.rank = [0 for i in range(n)]
 
-    # Step 2: Relax edges repeatedly
-    for _ in range(len(graph) - 1):
-        for u in graph:
-            for v, weight in graph[u]:
-                if distances[u] + weight < distances[v]:
-                    distances[v] = distances[u] + weight
-                    predecessors[v] = u
+    def find(self, u):
+        if not self.pai[u] == u:
+            self.pai[u] = self.find(self.pai[u])
+        
+        return self.pai[u]
 
-    # Step 3: Check for negative cycles
-    for u in graph:
-        for v, weight in graph[u]:
-            if distances[u] + weight < distances[v]:
-                raise ValueError("Graph contains a negative cycle")
+    def union(self, u, v):
+        u = self.find(u)
+        v = self.find(v)
 
-    return distances, predecessors
+        if not u == v:
+            if self.rank[u] > self.rank[v]:
+                self.pai[v] = u
+            else:
+                self.pai[u] = v
+                if self.rank[u] == self.rank[v]:
+                    self.rank[v] += 1
 
-def djikastra(graph, source):
-    # Step 1: Initialize distances and predecessors
-    distances = {vertex: float('inf') for vertex in graph}
-    distances[source] = 0
-    predecessors = {vertex: None for vertex in graph}
-
-    # Step 2: Relax edges repeatedly
-    for _ in range(len(graph) - 1):
-        for u in graph:
-            for v, weight in graph[u]:
-                if distances[u] + weight < distances[v]:
-                    distances[v] = distances[u] + weight
-                    predecessors[v] = u
-
-    return distances, predecessors
+    def mostra(self):
+        print(self.pai)
+        print(self.rank)
 
 
 
-def main():
-    pass
+uf = Union_find(5)
 
-if __name__ == '__main__':
-    main()
+uf.union(0, 1)
+uf.union(1, 2)
+uf.union(3, 4)
 
+uf.mostra()
