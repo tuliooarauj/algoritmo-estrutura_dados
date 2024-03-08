@@ -1,7 +1,7 @@
 class Union_find:
     def __init__(self, n) -> None:
-        self.pai = [i for i in range(n)]
-        self.rank = [0 for i in range(n)]
+        self.pai = [i for i in range(n)]    
+        self.size = [1] * n
 
     def find(self, u):
         if not self.pai[u] == u:
@@ -13,24 +13,29 @@ class Union_find:
         u = self.find(u)
         v = self.find(v)
 
-        if not u == v:
-            if self.rank[u] > self.rank[v]:
-                self.pai[v] = u
-            else:
-                self.pai[u] = v
-                if self.rank[u] == self.rank[v]:
-                    self.rank[v] += 1
+        if u == v:
+            return
+        
+        if self.size[u] < self.size[v]:
+        
+            self.pai[u] = v
+            self.size[v] += self.size[u]
 
-    def mostra(self):
-        print(self.pai)
-        print(self.rank)
+        else:
+            self.pai[v] = u
+            self.size[u] += self.size[v]
+
+n = 5
+unionFind = Union_find(n)
+ 
+# Perform union operations
+unionFind.union(0, 1)
+unionFind.union(2, 3)
+unionFind.union(0, 4)
+ 
+# Print the representative of each element after unions
+for i in range(n):
+    print("Element {}: Representative = {}".format(i, unionFind.find(i)))
 
 
-
-uf = Union_find(5)
-
-uf.union(0, 1)
-uf.union(1, 2)
-uf.union(3, 4)
-
-uf.mostra()
+    
