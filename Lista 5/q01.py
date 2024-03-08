@@ -65,7 +65,7 @@ def main():
             if m == representante_l:
                 aparicoes += 1
 
-        if l != n_usuarios:
+        if l != n_usuarios -1:
             print(aparicoes,end=' ')
         else:
             print(aparicoes,end='')
