@@ -1,3 +1,45 @@
+class Heap():
+    def __init__(self, array) -> None:
+        self.array = array
+        self.size = len(array)
+        self.build_min_heap()
+
+    def parent(self, idx):
+        return idx // 2
+
+    def left(self, idx):
+        return (idx * 2) + 1
+
+    def right(self, idx):
+        return (idx * 2) + 2 
+
+    def switch(self, array, elem1, elem2):
+        aux = array[elem1]
+        array[elem1] = array[elem2]
+        array[elem2] = aux
+
+    def min_heapify(self, array, idx):
+        if not idx < 0:
+            left_idx = self.left(idx)
+            right_idx = self.right(idx)
+
+            if left_idx <= self.size - 1 and array[left_idx][2] < array[idx][2]:
+                menor = left_idx
+            else:
+                menor = idx
+            
+            if right_idx <= self.size - 1 and array[right_idx][2] < array[menor][2]:
+                menor = right_idx
+            
+            if menor != idx:
+                self.switch(array, idx, menor)
+                self.min_heapify(array, menor)
+
+    def build_min_heap(self):
+        for idx in range((self.size // 2), -1, -1):
+            self.min_heapify(self.array, idx - 1)
+
+
 class Grafo():
     def __init__(self, vertice) -> None:
         self.vertice = vertice
@@ -7,39 +49,61 @@ class Grafo():
         self.grafo[u][v] = peso
         self.grafo[v][u] = peso
 
-    def min_chave(self, chave, visitado):
-        minimo = float('inf')
-        for v in range(self.vertice):
-            if chave[v] < minimo and not visitado[v]:
-                minimo = chave[v]
-                minimo_indice = v
-        return minimo_indice
-    
-    def mostra_mst(self, pai):
-        custo_total = 0
-        for i in range(1, self.vertice):
-            custo_total += self.grafo[i][pai[i]] 
-        print(custo_total)
-
-
-    def prim(self):
-        pai = [None] * self.vertice
-        chave = [float('inf')] * self.vertice
-        chave[0] = 0
-        visitado = [False] * self.vertice
-
-        pai[0] = -1
+    def kruskal_mst(self):
+        arestas = [None]
 
         for i in range(self.vertice):
-            u = self.min_chave(chave, visitado)
-            visitado[u] = True
+            for j in range(i + 1, self.vertice):
+                if self.grafo[i][j] != 0:
 
-            for v in range(self.vertice):
-                if self.grafo[u][v] > 0 and not visitado[v] and self.grafo[u][v] < chave[v]:
-                    pai[v] = u
-                    chave[v] = self.grafo[u][v]
+                    arestas[-1] = [i, j, self.grafo[i][j]]
+                    arestas+=[None]
+
+        heap = Heap(arestas[:-1])
+        union_find = Union_find(self.vertice)
+        peso_mst = 0
+        idx = 0
+
+        while idx < self.vertice - 1:
+            u, v, peso = heap.array[0]
+            heap.switch(heap.array, 0, heap.size - 1)
+            heap.size -= 1
+            heap.min_heapify(heap.array, 0)
+
+
+            if union_find.find(u) != union_find.find(v):
+                idx += 1
+                peso_mst += peso
+                union_find.union(u, v)
+
+        return peso_mst
+
+
+class Union_find():
+    def __init__(self, n) -> None:
+        self.pai = [i for i in range(n)]    
+        self.size = [1] * n
+
+    def find(self, u):
+        if not self.pai[u] == u:
+            self.pai[u] = self.find(self.pai[u])
         
-        self.mostra_mst(pai)
+        return self.pai[u]
+
+    def union(self, u, v):
+        u = self.find(u)
+        v = self.find(v)
+
+        if u == v:
+            return
+        
+        if self.size[u] < self.size[v]:
+            self.pai[u] = v
+            self.size[v] += self.size[u]
+        else:
+            self.pai[v] = u
+            self.size[u] += self.size[v]
+
 
 def main():
     nAeroportos_nTrechos = input().split()
@@ -48,18 +112,17 @@ def main():
 
     grafo = Grafo(n_aeroportos)
 
-    for i in range (n_trechos):
+    for i in range(n_trechos):
         trecho = input().split()
         id_aeroportoA = int(trecho[0])
         id_aeroportoB = int(trecho[1])
         custo_AB = int(trecho[2])
         if ((grafo.grafo[id_aeroportoA][id_aeroportoB] == 0 and grafo.grafo[id_aeroportoB][id_aeroportoA] == 0) or
              (grafo.grafo[id_aeroportoA][id_aeroportoB] > custo_AB or grafo.grafo[id_aeroportoB][id_aeroportoA] > custo_AB)) and id_aeroportoA != id_aeroportoB:       
-            
-                grafo.adiciona_aresta_peso(id_aeroportoA, id_aeroportoB, custo_AB)
+            grafo.adiciona_aresta_peso(id_aeroportoA, id_aeroportoB, custo_AB)
     
-    
-    grafo.prim()
+    mst = grafo.kruskal_mst()
+    print(mst)
         
 if __name__ == "__main__":
     main()

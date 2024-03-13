@@ -1,39 +1,65 @@
-class Union_find:
-    def __init__(self, n) -> None:
-        self.pai = [i for i in range(n)]    
-        self.size = [1] * n
+class Grafo():
+    def __init__(self, vertice) -> None:
+        self.vertice = vertice
+        self.grafo = [[0] * self.vertice for i in range(self.vertice)]
 
-    def find(self, u):
-        if not self.pai[u] == u:
-            self.pai[u] = self.find(self.pai[u])
+    def adiciona_aresta_peso(self, u, v, peso):
+        self.grafo[u][v] = peso
+        self.grafo[v][u] = peso
+
+    def min_chave(self, chave, visitado):
+        minimo = float('inf')
+        for v in range(self.vertice):
+            if chave[v] < minimo and not visitado[v]:
+                minimo = chave[v]
+                minimo_indice = v
+        return minimo_indice
+    
+    def mostra_mst(self, pai):
+        custo_total = 0
+        for i in range(1, self.vertice):
+            custo_total += self.grafo[i][pai[i]] 
+        print(custo_total)
+
+
+    def prim(self):
+        pai = [None] * self.vertice
+        chave = [float('inf')] * self.vertice
+        chave[0] = 0
+        visitado = [False] * self.vertice
+
+        pai[0] = -1
+
+        for i in range(self.vertice):
+            u = self.min_chave(chave, visitado)
+            visitado[u] = True
+
+            for v in range(self.vertice):
+                if self.grafo[u][v] > 0 and not visitado[v] and self.grafo[u][v] < chave[v]:
+                    pai[v] = u
+                    chave[v] = self.grafo[u][v]
         
-        return self.pai[u]
+        self.mostra_mst(pai)
 
-    def union(self, u, v):
-        u = self.find(u)
-        v = self.find(v)
+def main():
+    nAeroportos_nTrechos = input().split()
+    n_aeroportos = int(nAeroportos_nTrechos[0])
+    n_trechos = int(nAeroportos_nTrechos[1])
 
-        if u == v:
-            return
+    grafo = Grafo(n_aeroportos)
+
+    for i in range (n_trechos):
+        trecho = input().split()
+        id_aeroportoA = int(trecho[0])
+        id_aeroportoB = int(trecho[1])
+        custo_AB = int(trecho[2])
+        if ((grafo.grafo[id_aeroportoA][id_aeroportoB] == 0 and grafo.grafo[id_aeroportoB][id_aeroportoA] == 0) or
+             (grafo.grafo[id_aeroportoA][id_aeroportoB] > custo_AB or grafo.grafo[id_aeroportoB][id_aeroportoA] > custo_AB)) and id_aeroportoA != id_aeroportoB:       
+            
+                grafo.adiciona_aresta_peso(id_aeroportoA, id_aeroportoB, custo_AB)
+    
+    
+    grafo.prim()
         
-        if self.size[u] < self.size[v]:
-        
-            self.pai[u] = v
-            self.size[v] += self.size[u]
-
-        else:
-            self.pai[v] = u
-            self.size[u] += self.size[v]
-
-n = 5
-unionFind = Union_find(n)
- 
-# Perform union operations
-unionFind.union(0, 1)
-unionFind.union(2, 3)
-unionFind.union(0, 4)
- 
-# Print the representative of each element after unions
-for i in range(n):
-    print("Element {}: Representative = {}".format(i, unionFind.find(i)))
-
+if __name__ == "__main__":
+    main()
