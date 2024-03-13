@@ -37,5 +37,3 @@ unionFind.union(0, 4)
 for i in range(n):
     print("Element {}: Representative = {}".format(i, unionFind.find(i)))
 
-
-    

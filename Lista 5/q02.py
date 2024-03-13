@@ -28,6 +28,8 @@ class Grafo():
         chave[0] = 0
         visitado = [False] * self.vertice
 
+        pai[0] = -1
+
         for i in range(self.vertice):
             u = self.min_chave(chave, visitado)
             visitado[u] = True
@@ -51,7 +53,11 @@ def main():
         id_aeroportoA = int(trecho[0])
         id_aeroportoB = int(trecho[1])
         custo_AB = int(trecho[2])
-        grafo.adiciona_aresta_peso(id_aeroportoA, id_aeroportoB, custo_AB)
+        if ((grafo.grafo[id_aeroportoA][id_aeroportoB] == 0 and grafo.grafo[id_aeroportoB][id_aeroportoA] == 0) or
+             (grafo.grafo[id_aeroportoA][id_aeroportoB] > custo_AB or grafo.grafo[id_aeroportoB][id_aeroportoA] > custo_AB)) and id_aeroportoA != id_aeroportoB:       
+            
+                grafo.adiciona_aresta_peso(id_aeroportoA, id_aeroportoB, custo_AB)
+    
     
     grafo.prim()
         
